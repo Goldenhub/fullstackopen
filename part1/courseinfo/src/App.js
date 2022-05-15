@@ -32,6 +32,7 @@ function Part({part}) {
   )
 }
 
+
 function App() {
   const course = {
     name: "Half Stack application development",
