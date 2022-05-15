@@ -6,18 +6,13 @@ function Header({course}) {
   );
 }
 function Content({part1, part2, part3, exercises1, exercises2, exercises3}) {
+  console.log({part1, part2, part3, exercises1, exercises2, exercises3})
   return(
-    <>
-      <p>
-        {part1} {exercises1}
-      </p>
-      <p>
-        {part2} {exercises2}
-      </p>
-      <p>
-        {part3} {exercises3}
-      </p>
-    </>
+    <div>
+      <Part part={part1} exercise={exercises1} />
+      <Part part={part2} exercise={exercises2} />
+      <Part part={part3} exercise={exercises3} />
+    </div>
   )
 }
 function Total({exercises1, exercises2, exercises3}) {
@@ -26,6 +21,16 @@ function Total({exercises1, exercises2, exercises3}) {
       <p>Number of exercises {exercises1 + exercises2 + exercises3}</p>
     </>
   );
+}
+
+function Part({part, exercise}) {
+  return (
+    <>
+      <p>
+        {part} {exercise}
+      </p>
+    </>
+  )
 }
 
 function App() {
