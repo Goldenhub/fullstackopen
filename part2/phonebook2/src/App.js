@@ -1,32 +1,26 @@
 import './App.css';
 import axios from "axios";
-import Note from "./components/Note"
 import {useEffect, useState} from "react"
 
 function App() {
-  const [notes, setNotes] = useState([])
-  const [newNote, setNewNote] = useState('')
-  const [showAll, setShowAll] = useState(true)
+  const [persons, setPersons] = useState([]);
 
   const hook = () => {
-    console.log('effect')
     axios
-      .get("http://localhost:3001/notes")
+      .get('http://localhost:3001/persons')
       .then(response => {
-        console.log('promise fulfilled')
-        setNotes(response.data)
+        setPersons(response.data)
       })
   }
+  useEffect(hook, [])
 
-  useEffect(hook, []);
-  
-  console.log('render', notes.length, 'notes')
   return (
-    <>
-      Hello
-      <Note />
-    </>
-  );
+    <div>
+      {persons.map(person => {
+        return <p key={person.id}>{person.name}: {person.number}</p>
+      })}
+    </div>
+  )
 }
 
 export default App;
