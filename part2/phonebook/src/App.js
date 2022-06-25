@@ -12,11 +12,11 @@ function App() {
     // console.log(e.target)
     let stringedPersons = JSON.stringify(persons);
     let check = stringedPersons.includes(JSON.stringify({name: newName}));
-    if(check){
-      alert(`${newName} is already added to phonebook`)
-    }else{
+    if(!check){
       setPersons(persons.concat({name: newName}))
       setNewName('');
+    }else{
+      alert(`${newName} is already added to phonebook`)
     }
   }
 
