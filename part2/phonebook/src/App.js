@@ -19,7 +19,7 @@ function App() {
   console.log(filteredPersons);
 
   function handleFilter(e){
-    setFilter(e.target.value)
+    setFilter(e.target.value )
   }
 
   function handleSubmit(e) {
