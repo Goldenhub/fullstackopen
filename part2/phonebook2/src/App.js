@@ -3,25 +3,66 @@ import axios from "axios";
 import {useEffect, useState} from "react"
 
 function App() {
-  const [persons, setPersons] = useState([]);
-  
+  const [countries, setCountries] = useState([]);
+  const [name, setName] = useState('');
+
+  function handleChange(e){
+    setName(e.target.value);
+  }
+
 
   const hook = () => {
     axios
-      .get('http://localhost:3001/persons')
+      .get(`https://restcountries.com/v3.1/all`)
       .then(response => {
-        setPersons(response.data)
-
+        setCountries(response.data);
       })
   }
-  useEffect(hook, [])
+
+  useEffect(hook, []);
+
+  let filteredCountries = [];
+
+  if(name){
+    filteredCountries = countries.filter(country => {
+      return country.name.common.includes(name.trim());
+    })
+  }
+
+  let output = '';
+
+  if(filteredCountries.length === 0){
+    output = <p>Enter a valid country name to filter</p>
+  }else if(filteredCountries.length <= 10 && filteredCountries.length > 1){
+    output = filteredCountries.map(filtered => {
+      return <p key={filtered.name.common}>{filtered.name.common}</p>;
+    });
+  }else if(filteredCountries.length === 1){
+    output = filteredCountries.map(filtered => {
+      return (
+        <div key={filtered.name.common}>
+          <h3>{filtered.name.common}</h3>
+          <p>Capital {filtered.capital[0]}</p>
+          <p>Area {filtered.area}</p>
+          <ul>
+            {Object.values(filtered.languages).map(lang => {
+              return <li key={lang}>{lang}</li>
+            })}
+          </ul>
+          <img src={filtered.flags.svg} alt="flag" width={200} />
+        </div>
+      )
+    });
+  }else{
+    output = <p>Too many matches, specify another filter</p>
+  }
+
 
   return (
-    <div>
-      {persons.map(person => {
-        return <p key={person.id}>{person.name}: {person.number}</p>
-      })}
-    </div>
+    <>
+      find countries {" "} <input value={name} onChange={handleChange}/>
+      {output}
+    </>
   )
 }
 
