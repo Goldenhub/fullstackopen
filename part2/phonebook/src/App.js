@@ -19,13 +19,12 @@ function App() {
   console.log(filteredPersons);
 
   function handleFilter(e){
-    setFilter(e.target.value )
+    setFilter(e.target.value)
   }
 
   function handleSubmit(e) {
     e.preventDefault();
 
-    // console.log(e.target)
     let stringedPersons = JSON.stringify(persons);
     let checkName = stringedPersons.includes(JSON.stringify(newUser.name.trim()));
     let checkNumber = stringedPersons.includes(JSON.stringify(newUser.number.trim()));
