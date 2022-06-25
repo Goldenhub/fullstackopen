@@ -10,8 +10,14 @@ function App() {
   function handleSubmit(e){
     e.preventDefault();
     // console.log(e.target)
-    setPersons(persons.concat({name: newName}))
-    setNewName('');
+    let stringedPersons = JSON.stringify(persons);
+    let check = stringedPersons.includes(JSON.stringify({name: newName}));
+    if(check){
+      alert(`${newName} is already added to phonebook`)
+    }else{
+      setPersons(persons.concat({name: newName}))
+      setNewName('');
+    }
   }
 
   function handleChange(e){
