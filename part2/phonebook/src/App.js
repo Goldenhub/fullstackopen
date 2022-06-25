@@ -1,54 +1,37 @@
-import Note from "./components/Note"
 import './App.css';
 import {useState} from "react";
 
-function App(prop) {
-  const [notes, setNotes] = useState(prop.notes)
-  const [newNote, setNewNote] = useState("a new note...")
-  const [showAll, setShowAll] = useState(true)
+function App() {
+  const [persons, setPersons] = useState([
+    { name: 'Arto Hellas' }
+  ]) 
+  const [newName, setNewName] = useState('')
 
-  function addNote(evt){
-    evt.preventDefault();
-    const noteObject = {
-      content: newNote,
-      date: new Date().toISOString(),
-      important: Math.random() < 0.5,
-      id: notes.length + 1
-    }
-
-    setNotes(notes.concat(noteObject));
-    setNewNote('');
+  function handleSubmit(e){
+    e.preventDefault();
+    // console.log(e.target)
+    setPersons(persons.concat({name: newName}))
+    setNewName('');
   }
 
-  function handleChange(evt){
-    console.log("Value Changed", evt.target.value)
-    setNewNote(evt.target.value);
+  function handleChange(e){
+    setNewName(e.target.value)
   }
-
-  function ToggleShow() {
-    setShowAll(!showAll);
-  }
-
-  const notesToShow = showAll 
-            ? notes 
-            : notes.filter(note => note.important === true);
 
   return (
     <div>
-      <h1>Notes</h1>
-      <button type="button" onClick={ToggleShow}>{showAll ? 'Important' : 'All'}</button>
-      <ul>
-        {notesToShow.map(note => 
-          <Note key={note.id} note={note} />
-        )}
-      </ul>
-      <form onSubmit={addNote}>
-        <input 
-          value={newNote} 
-          onChange={handleChange}
-        />
-        <button type="submit">Save</button>
+      <div>debug: {newName}</div>
+      <h2>Phonebook</h2>
+      <form onSubmit={handleSubmit}>
+        <div>
+          name: <input value={newName} onChange={handleChange} />
+        </div>
+        <div>
+          <button type="submit">Add</button>
+        </div>
       </form>
+      <h2>Numbers</h2>
+      {persons.map(person => <p key={person.name}>{person.name}</p>)}
     </div>
   )
 }
