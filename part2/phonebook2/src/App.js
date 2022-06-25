@@ -4,12 +4,14 @@ import {useEffect, useState} from "react"
 
 function App() {
   const [persons, setPersons] = useState([]);
+  
 
   const hook = () => {
     axios
       .get('http://localhost:3001/persons')
       .then(response => {
         setPersons(response.data)
+
       })
   }
   useEffect(hook, [])
