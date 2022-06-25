@@ -31,7 +31,7 @@ function App() {
 
   if(name){
     filteredCountries = countries.filter(country => {
-      return country.name.common.includes(name.trim());
+      return country.name.common.toLowerCase().includes(name.toLowerCase().trim());
     })
   }
 
