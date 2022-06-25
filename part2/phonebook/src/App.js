@@ -16,7 +16,6 @@ function App() {
   const [filter, setFilter] = useState('')
 
   const filteredPersons = persons.filter(person => person.name.toLowerCase().includes(filter.toLowerCase()));
-  console.log(filteredPersons);
 
   function handleFilter(e){
     setFilter(e.target.value)
