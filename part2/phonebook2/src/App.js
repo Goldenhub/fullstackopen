@@ -38,7 +38,7 @@ function App() {
 
   return (
     <>
-      find countries {" "} <input value={name} onChange={handleChange}/>
+      find countries {" "} <input value={name} onChange={handleChange} />
       <FilteredCountries filter={filteredCountries} handleShow={handleShow} />
     </>
   )

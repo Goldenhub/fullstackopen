@@ -1,4 +1,7 @@
+import WeatherInfo  from "./WeatherInfo";
+
 function FilteredCountries({ filter, handleShow }) {
+  
   let output = "";
 
   if (filter.length === 0) {
@@ -17,21 +20,19 @@ function FilteredCountries({ filter, handleShow }) {
       );
     });
   } else if (filter.length === 1) {
-    output = filter.map((filtered, i) => {
-      return (
-        <div key={i}>
-          <h3>{filtered.name.common}</h3>
-          <p>Capital {filtered.capital[0]}</p>
-          <p>Area {filtered.area}</p>
-          <ul>
-            {Object.values(filtered.languages).map((lang) => {
-              return <li key={lang}>{lang}</li>;
-            })}
-          </ul>
-          <img src={filtered.flags.svg} alt="flag" width={200} />
-        </div>
-      );
-    });
+    output =  <div>
+                <h3>{filter[0].name.common}</h3>
+                <p>Capital {filter[0].capital[0]}</p>
+                <p>Area {filter[0].area}</p>
+                <h3>Languages</h3>
+                <ul>
+                  {Object.values(filter[0].languages).map((lang) => {
+                    return <li key={lang}>{lang}</li>;
+                  })}
+                </ul>
+                <img src={filter[0].flags.svg} alt="flag" width={200} />
+                <WeatherInfo capital={filter[0].capital} />
+              </div>      
   } else {
     output = <p>Too many matches, specify another filter</p>;
   }
