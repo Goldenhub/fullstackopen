@@ -1,0 +1,46 @@
+{
+  "notes": [
+    {
+      "content": "newNote",
+      "date": "27th June 2022",
+      "important": false,
+      "id": 1
+    },
+    {
+      "content": "Hello",
+      "date": "2022-07-23T11:50:11.113Z",
+      "important": false,
+      "id": 2
+    },
+    {
+      "content": "Hello",
+      "date": "2022-07-23T11:50:39.097Z",
+      "important": false,
+      "id": 3
+    },
+    {
+      "content": "Hello",
+      "date": "2022-07-23T11:52:31.803Z",
+      "important": false,
+      "id": 4
+    },
+    {
+      "content": "",
+      "date": "2022-07-23T11:52:33.202Z",
+      "important": false,
+      "id": 5
+    },
+    {
+      "content": "How asda",
+      "date": "2022-07-23T11:52:43.260Z",
+      "important": false,
+      "id": 6
+    },
+    {
+      "content": "helo",
+      "date": "2022-07-23T13:22:17.576Z",
+      "important": false,
+      "id": 8
+    }
+  ]
+}
