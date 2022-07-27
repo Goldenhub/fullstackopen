@@ -1,10 +1,15 @@
-function Persons({filtered}) {
+
+function Persons({filtered, handleDelete}) {
+  
   return (
     <>
-      {filtered.map((person) => (
-        <p key={person.name}>
-          {person.name}: {person.number}
-        </p>
+      {filtered.map(person => (
+        <div key={person.name}>
+          <p>
+            {person.name}: {person.number}
+            <button id={person.id} onClick={(event) => handleDelete(event)}>delete</button>
+          </p>
+        </div>
       ))}
     </>
   );
