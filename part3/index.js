@@ -1,70 +1,12 @@
 const express = require('express')
+require ('dotenv').config()
+const app = express();
 const cors = require('cors')
 
-let notes = [
-    {
-      "content": "newNote",
-      "date": "27th June 2022",
-      "important": false,
-      "id": 1
-    },
-    {
-      "content": "Hello",
-      "date": "2022-07-23T11:50:11.113Z",
-      "important": true,
-      "id": 2
-    },
-    {
-      "content": "Hello",
-      "date": "2022-07-23T11:50:39.097Z",
-      "important": true,
-      "id": 3
-    },
-    {
-      "content": "Hello",
-      "date": "2022-07-23T11:52:31.803Z",
-      "important": true,
-      "id": 4
-    },
-    {
-      "content": "",
-      "date": "2022-07-23T11:52:33.202Z",
-      "important": false,
-      "id": 5
-    },
-    {
-      "content": "How asda",
-      "date": "2022-07-23T11:52:43.260Z",
-      "important": true,
-      "id": 6
-    },
-    {
-      "content": "helo",
-      "date": "2022-07-23T13:22:17.576Z",
-      "important": true,
-      "id": 8
-    },
-    {
-      "content": "helo",
-      "date": "2022-10-15T15:01:11.309Z",
-      "important": true,
-      "id": 9
-    },
-    {
-      "content": "rrrrrt",
-      "date": "2022-10-15T15:11:34.958Z",
-      "important": true,
-      "id": 10
-    },
-    {
-      "content": "test me",
-      "date": "2022-10-15T15:16:12.327Z",
-      "important": true,
-      "id": 11
-    }
-  ]
+const Note = require('./models/note')
 
-const app = express();
+// const mongoose = require('mongoose');
+
 
 app.use(express.json());
 app.use(cors());
@@ -76,7 +18,9 @@ app.get('/', (request, response) => {
 })
 
 app.get('/api/notes', (request, response) => {
-  response.send(notes)
+  Note.find({}).then(notes => {
+    response.json(notes)
+  })
 })
 
 app.get('/api/notes/:id', (request, response) => {
@@ -124,7 +68,7 @@ app.post('/api/notes', (request, response) => {
 })
 
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT;
 app.listen(PORT, () => {
   console.log(`Server started running on PORT ${PORT}` );
-});
+})
