@@ -15,7 +15,7 @@ const App = () => {
       noteService
       .getAll()
       .then(initialNotes => {
-        setNotes(initialNotes)
+        setNotes(initialNotes.data)
       })
   }, [])
 
@@ -23,15 +23,13 @@ const App = () => {
     event.preventDefault()
     const noteObject = {
       content: newNote,
-      date: new Date().toISOString(),
-      important: Math.random() > 0.5,
-      id: notes.length + 1
+      important: Math.random() > 0.5
     }
 
     noteService
     .create(noteObject)
     .then(returnedNotes => {
-      setNotes(notes.concat(returnedNotes))
+      setNotes(notes.concat(returnedNotes.data))
       setSuccessMessage(`Added successfully`);
       setNewNote('')
       setTimeout(() => {
@@ -51,7 +49,7 @@ const App = () => {
     noteService
       .update(id, changedNote)
       .then(returnedNotes => {
-        setNotes(notes.map(note => note.id !== id ? note : returnedNotes))
+        setNotes(notes.map(note => note.id !== id ? note : returnedNotes.data))
       })
       .catch((e) => {
         setErrorMessage(`Note '${note.content}' was already removed from server`)

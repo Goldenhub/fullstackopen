@@ -18,11 +18,11 @@ app.get('/', (request, response) => {
 
 app.get('/api/notes', (request, response) => {
   Note.find({}).then(notes => {
-    response.json(notes)
+    response.json({status: 200, message: "successfully", data: notes})
   })
 })
 
-app.get('/api/notes/:id', (request, response) => {
+app.get('/api/notes/:id', (request, response, next) => {
   const id = request.params.id;
   
   Note.findById(id)
@@ -31,34 +31,30 @@ app.get('/api/notes/:id', (request, response) => {
         response.json({ status: 200, message: "Successful", data: note });
       else{
         response.statusMessage = "Resource Not Found";
-        response.status(404).end();      
+        response.status(404).json({ status: 404, message: "Uh oh! Can't find something"}); 
       }
   })
-    .catch(err => {
-      response.statusMessage = "Resource Not Found";
-      response.status(404).json({ status: 404, message: "Uh oh! Can't find something"});
-  })
+    .catch(err => next(err))
 
 })
 
-app.delete('/api/notes/:id', (request, response) => {
+
+
+app.delete('/api/notes/:id', (request, response, next) => {
   const id = request.params.id;
   Note.findByIdAndRemove(id)
     .then(note => {
       console.log(note)
       if (note) {
         response.statusMessage = "Note Deleted";
-        response.status(200).end();
+        response.status(204).end();
       }
       else {
         response.statusMessage = "Resource Not Found";
         response.status(404).end();
       }
     })
-    .catch(err => {
-      response.statusMessage = "Resource Not Found";
-      response.status(404).json({ status: 404, message: "Uh oh! Can't find something" });
-    })
+    .catch(err => next(err))
 })
 
 app.post('/api/notes', (request, response) => {
@@ -71,7 +67,7 @@ app.post('/api/notes', (request, response) => {
 
   const note = new Note({
     content: body.content,
-    important: Boolean(body.important) || false,
+    important: body.important,
     date: new Date(),
   })
   
@@ -80,8 +76,40 @@ app.post('/api/notes', (request, response) => {
   })
 })
 
+app.put('/api/notes/:id', (request, response, next) => {
+    const id = request.params.id;
+    const body = request.body;
+    const note = {
+      content: body.content,
+      important: body.important
+    }
+    Note.findByIdAndUpdate(id, note, { new: true })
+      .then(updatedNote => {
+        response.json({ status: 204, message: "successfully updated", data: updatedNote });
+      })
+    .catch(err => next(err))
+})
+
+
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({ status: 404, error: 'unknown endpoint' })
+}
+
+app.use(unknownEndpoint)
+
+const errorHandler = (error, request, response, next) => {
+  console.log(error.message);
+
+  if (error.name === 'CastError') {
+    response.status(400).json({status: 400, error: 'malformatted ID'})
+  }
+
+  next(error)
+}
+
+app.use(errorHandler)
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
-  console.log(`Server started running on PORT ${PORT}` );
+  console.log(`Server started running on PORT ${PORT}`);
 })
