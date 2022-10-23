@@ -5,7 +5,6 @@ const cors = require('cors')
 
 const Note = require('./models/note')
 
-// const mongoose = require('mongoose');
 
 
 app.use(express.json());
@@ -24,30 +23,43 @@ app.get('/api/notes', (request, response) => {
 })
 
 app.get('/api/notes/:id', (request, response) => {
-  const id = Number(request.params.id);
+  const id = request.params.id;
   
-  const note = notes.find(note => note.id === id);
+  Note.findById(id)
+    .then(note => {
+      if(note)
+        response.json({ status: 200, message: "Successful", data: note });
+      else{
+        response.statusMessage = "Resource Not Found";
+        response.status(404).end();      
+      }
+  })
+    .catch(err => {
+      response.statusMessage = "Resource Not Found";
+      response.status(404).json({ status: 404, message: "Uh oh! Can't find something"});
+  })
 
-  if (note) {
-    response.send(note);
-  } else {
-    response.statusMessage = "Resource Not Found";
-    response.status(404).json({ status: 404, message: "Uh oh! Can't find something"});
-  }
 })
 
 app.delete('/api/notes/:id', (request, response) => {
-  const id = Number(request.params.id);
-  notes = notes.filter(note => note.id !== id);
-
-  response.statusMessage = "Resource Deleted";
-  response.status(204).json({ status: 204, message: "Resource Deleted"});
+  const id = request.params.id;
+  Note.findByIdAndRemove(id)
+    .then(note => {
+      console.log(note)
+      if (note) {
+        response.statusMessage = "Note Deleted";
+        response.status(200).end();
+      }
+      else {
+        response.statusMessage = "Resource Not Found";
+        response.status(404).end();
+      }
+    })
+    .catch(err => {
+      response.statusMessage = "Resource Not Found";
+      response.status(404).json({ status: 404, message: "Uh oh! Can't find something" });
+    })
 })
-
-const generateID = () => {
-  const maxId = notes.length > 0 ? Math.max(...notes.map(n => n.id)) : 0;
-  return maxId + 1;
-}
 
 app.post('/api/notes', (request, response) => {
   const body = request.body;
@@ -57,14 +69,15 @@ app.post('/api/notes', (request, response) => {
      })
   }
 
-  const note = {
+  const note = new Note({
     content: body.content,
     important: Boolean(body.important) || false,
     date: new Date(),
-    id: generateID()
-  }
-  notes = notes.concat(note);
-  response.json({status: 200, message: "Note Added", data: note});
+  })
+  
+  note.save().then(savedNote => {
+    response.json({status: 200, message: "Note Added", data: savedNote});
+  })
 })
 
 
