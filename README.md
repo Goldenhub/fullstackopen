@@ -6,12 +6,17 @@
 
 - **part0**
 - **part1**
-  - - courseinfo
-  - - anecdotes
-  - - unicafe
+  - courseinfo
+  - anecdotes
+  - unicafe
 - **part2**
-  - - courseinfo1
-  - - phonebook
-  - - phonebook2
-  - - phonebook3
-  - - phonebook4
+  - courseinfo1
+  - phonebook
+  - phonebook2
+  - phonebook3
+  - phonebook4
+- **styling**
+- **part3**
+  - phonebook-backend
+  - phonebook-frontend
+  - phonebook-fullstack
