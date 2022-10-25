@@ -1,7 +1,7 @@
 /* eslint-disable linebreak-style */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
-const { PORT, MONGODB_URI } = require('.utils/config')
+const { PORT, MONGODB_URI } = require('./utils/config')
 const express = require('express')
 const app = express()
 const cors = require('cors')
