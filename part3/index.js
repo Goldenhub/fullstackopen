@@ -1,8 +1,8 @@
 /* eslint-disable linebreak-style */
 const app = require('./app')
-const { info } = require('.utils/logger')
+const { info } = require('./utils/logger')
 const http = require('http')
-const { PORT } = require('utils/config')
+const { PORT } = require('./utils/config')
 
 const server = http.createServer(app)
 
