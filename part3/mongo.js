@@ -8,7 +8,7 @@ if(process.argv.length < 3){
 
 const password = encodeURIComponent(process.argv[2])
 
-const url = `mongodb+srv://fullstackopen:${password}@cluster0.yy4vaj2.mongodb.net/noteApp?retryWrites=true&w=majority`
+const url = `mongodb+srv://fullstackopen:${password}@cluster0.yy4vaj2.mongodb.net/testNoteApp?retryWrites=true&w=majority`
 
 const noteSchema = new mongoose.Schema({
   content: String,
