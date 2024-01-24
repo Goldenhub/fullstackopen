@@ -1,6 +1,14 @@
 /* eslint-disable no-unused-vars */
 const { info, error } = require('./logger')
 
+const requestLogger = (request, response, next) => {
+  info('Method:', request.method)
+  info('Path:  ', request.path)
+  info('Body:  ', request.body)
+  info('---')
+  next()
+}
+
 const errorHandler = (err, request, response, next) => {
   error(err.message)
 
@@ -18,6 +26,7 @@ const unknownEndpoint = (request, response) => {
 }
 
 module.exports = {
+  requestLogger,
   errorHandler,
   unknownEndpoint
 }
